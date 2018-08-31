@@ -19,5 +19,7 @@ namespace CyberPay.Cmd.Payload.Quickteller
         public List<QuicktellerCustomerViewModel> customers { get; set; }
         [JsonProperty("accountName")]
         public NameEnquiry accountName { get; set; }
+        [JsonProperty("banks")]
+        public List<QuicktellerGetBankCodes> Banks { get; set; }
     }
 }

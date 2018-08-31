@@ -42,7 +42,26 @@ namespace CyberPay.Cmd.Providers
             return responseobject;
         }
 
+        public List<QuicktellerGetBankCodes> GetBankCodes()
+        {
+            var quicktellerBankUrl = ConfigurationManager.AppSettings["BankUrl"];
+            var sendRequest = this.SendRequest("", quicktellerBankUrl);
+            var responseobject = JsonConvert.DeserializeObject<QuicktellerServiceJSONResponse>(sendRequest);
+            if (responseobject == null)
+            {
+                responseobject = new QuicktellerServiceJSONResponse();
+            }
 
+            var paymentItems = responseobject.Banks;
+
+            if (paymentItems == null)
+            {
+                responseobject.Banks = new List<QuicktellerGetBankCodes>();
+            }
+
+            return responseobject.Banks;
+
+        }
 
         public List<QuicktellerBillCategory> GetBillCategories()
         {
@@ -524,5 +543,7 @@ namespace CyberPay.Cmd.Providers
             string timeStamp = ((int)(DateTime.UtcNow - new DateTime(1970, 1, 1)).TotalSeconds).ToString();
             return timeStamp.ToString();
         }
+
+        
     }
 }
